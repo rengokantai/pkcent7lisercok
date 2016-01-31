@@ -155,7 +155,7 @@ uninstall
 ```
 modprobe -r -v xxx
 ```
-
+- cp3
 
 
 
@@ -163,4 +163,55 @@ modprobe -r -v xxx
 - cp8 FTP
 ```
 yum install vsftpd
+```
+list all running services:
+```
+systemctl -t service -a --state running
+```
+All the ```systemd``` unit files installed by the basic system during installation are in 
+```
+/usr/lib/systemd/system
+```
+others come from installing are
+```
+/etc/systemd/system
+```
+
+To avoid server interupt, we can use
+```
+systemctl reload httpd.service
+```
+To check which service have reload option
+```
+grep -l "ExecReload" /usr/lib/systemd/system/*.service /etc/systemd/system/*.service
+```
+
+
+print a longer version of error message
+```
+systemctl status httpd.service -l
+```
+
+Tracking system resources with journald
+```
+journalctl --since "2015-07-20 5:00:00" --until "2015-07-20 8:00:00"
+```
+to some service
+```
+journalctl -u sshd.service --since "yesterday"
+```
+error type
+```
+journalctl -p err -b
+journalctl -p err -b -o verbose
+journalctl -f (log output)
+```
+(journald is not a full replacement of rsyslog)
+
+make journald persistent
+```
+mkdir /var/log/journal
+systemd-tmpfiles --create --prefix /var/log/journal
+systemctl restart systemd-journald
+journalctl --boot=-1
 ```
