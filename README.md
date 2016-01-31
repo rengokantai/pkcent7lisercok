@@ -262,6 +262,113 @@ rsync --delete -log-file=$LF -avzq $SOURCE $DEST
 (echo "$SBJT"; echo;cat$LF) | sendmail -f $FROM -t $EMAIL
 ```
 
+- cp4 yum  
+check whether there are any updates:
+```
+yum check-update
+```
+install yum-cron to customize this.  
+
+search:
+```
+yum search x
+```
+get info:
+```
+yum info x
+```
+get dependencies:
+```
+yum deplist x
+```
+remove:
+```
+yum remove x y z
+```
+clean cached packages
+```
+yum clean packages
+yum clean metadata
+yum clean dbcache
+```
+These commands are equi to
+```
+yum clean all
+```
+To rebuild cache, use
+```
+yum makecache
+yum -y update --skip-broken
+```
+
+install priority plugin:
+
+```
+yum install yum-plugin-priorities
+```
+open config file
+```
+vi /etc/yum/pluginconf.d/priorities.conf
+```
+should say enabled=1.
+Then 
+```
+vi /etc/yum.repos.d/CentOS-Base.repo
+```
+Add
+```
+priority=1
+```
+in [base],[updates],[extras]section.
+
+
+Third party repos
+```
+cd /etc/yum.repos.d
+```
+change appropriate repo from enabled=0 to enabled=1
+
+
+create a yum repo
+
+using  rpm
+```
+rpm -Uvh
+rpm -qa | grep ""
+```
+
+remove:
+```
+rpm -e x
+```
+
+query:
+```
+rpm -qi x (information)
+rpm -ql x (full filename)
+rpm -qd x (doc)
+```
+
+import GPG key:
+```
+rpm --import ....
+```
+
+get information of a local rpm file:
+```
+rpm -qip x
+```
+show all files:
+```
+rpm -qlp x
+```
+install using yum using localinstall
+```
+wget x.rpm
+yum localinstall x.rpm
+```
+
+
 
 
 
