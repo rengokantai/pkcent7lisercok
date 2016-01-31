@@ -157,13 +157,6 @@ modprobe -r -v xxx
 ```
 - cp3
 
-
-
-
-- cp8 FTP
-```
-yum install vsftpd
-```
 list all running services:
 ```
 systemctl -t service -a --state running
@@ -214,4 +207,65 @@ mkdir /var/log/journal
 systemd-tmpfiles --create --prefix /var/log/journal
 systemctl restart systemd-journald
 journalctl --boot=-1
+```
+show identity:
+```
+id root
+```
+
+cron file can be found at
+```
+/var/spool/cron/username
+```
+to remove a crontab:
+```
+crontab -r
+```
+
+cronjob folders:
+```
+/etc/cron.daily
+/etc/cron.hourly
+/etc/cron.weekly
+/etc/cron.monthly
+```
+
+rsync  
+Ex:  
+```
+mkdir ~/newfolder
+rsync -avz --delete /etc/sysconfig/network-scripts/ ~/newfolder
+```
+--delete: delete files on the target that do not exist in the source
+Then check the diff:
+```
+diff -r /etc/sysconfig/network-scripts/ ~/newfolder
+```
+should not return anything.  
+
+exclude some type of files:(-h = human readable)
+```
+rsync -avzh --delete --exclude="*.zip" --exclude="*.iso" /etc/sysconfig/network-scripts/ ~/newfolder
+```
+
+rsync + sendmail:
+```
+#!/bin/bash
+SBJT="`hostname -s`"
+FROM=root@aomain
+EMAIL=x@gmail.com
+SOURCE=/root
+DEST=/backup
+LFPATH=/tmp
+LF=$LFPATH/$(data +%Y%m%d_%T)_log.log
+rsync --delete -log-file=$LF -avzq $SOURCE $DEST
+(echo "$SBJT"; echo;cat$LF) | sendmail -f $FROM -t $EMAIL
+```
+
+
+
+
+- cp8 FTP
+```
+yum install vsftpd
 ```
