@@ -445,4 +445,32 @@ attach files(using mailx)
 ```
 echo "" | mailx -s "" -a file1 -a file2 x@x.com
 ```
+- cp12
+Add a page in ```/var/www/html/index.html```
+Then remove test page ```rm -f /etc/httpd/conf.d/welcome.conf```
+
+config more customized:
+```
+vi /etc/httpd/conf/httpd.conf
+```
+like this:
+```
+ServerAdmin webmaster@centos7.home
+ServerName www.centos7.home:80
+DirectoryIndtex index.html index.htm
+```
+Test it:
+```
+apachectl configtest
+```
+to enable remote visit
+```
+firewall-cmd --premanent --add-service http (not httpd)  &&firewall-cmd --reload
+``` 
+check log:
+```
+/var/log/httpd/error_log
+/var/log/httpd/access_log
+```
+
 
