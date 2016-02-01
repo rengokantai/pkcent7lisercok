@@ -403,4 +403,46 @@ Connect from remote:
 ```
 echo "show databases" | mysql -u x -p mysql -h hostip
 ```
+- cp11 mail services
+```
+vi /etc/postfix/main.cf
+```
+
+change the following:
+```
+inet_interfaces=all
+#inet_interfaces=localhost
+mydomain=centos7.home
+mydestination=(uncomment second line, comment first line)
+home_mailbox=Maildir/
+```
+Then
+```
+firewall-cmd --permanent --add-service=smtp && firewall-cmd --reload
+systemctl restart postfix
+```
+
+test
+```
+yum install swaks
+swaks --server 127.0.0.1 --to x@centos7.home
+```
+
+working with postfix
+```
+yum install mailx
+```
+send mail
+```
+echo "body" | mail -s "subject" x@x.com
+```
+other methods:  
+using file as mail body:
+```
+cat a.txt | mail -s .......
+```
+attach files(using mailx)
+```
+echo "" | mailx -s "" -a file1 -a file2 x@x.com
+```
 
