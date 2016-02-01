@@ -376,3 +376,31 @@ yum localinstall x.rpm
 ```
 yum install vsftpd
 ```
+
+
+- cp10 databases
+install mariadb
+```
+yum install mariadb mariadb-server
+systemctl enable/start mariadb.server
+mysql_secure_installation
+```
+create a database
+```
+CREATE DATABASE name CHARACTER SET utf8 COLLATE utf8-general-ci
+```
+
+allow remote access
+```
+yum install firewalld
+firewall-cmd --permanent --add-service=mysql &&firewall-cmd --reload
+```
+grant access to a remote user:
+```
+GRANT SELECT ON mysql.user TO 'user@remoteip' IDENTIFIED BY '';FLUSH PREVILEGES;EXIT;
+```
+Connect from remote:
+```
+echo "show databases" | mysql -u x -p mysql -h hostip
+```
+
